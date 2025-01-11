@@ -6,7 +6,6 @@ import java.util.List;
 @Entity
 public class Actor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private int age;
@@ -15,6 +14,11 @@ public class Actor {
     private String nationality;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "Actor_Movie",
+        joinColumns = @JoinColumn(name = "Actor_id"),
+        inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
     private List<Movie> movies;
 
     public int getId() {
@@ -73,11 +77,9 @@ public class Actor {
         this.movies = movies;
     }
 
-	@Override
-	public String toString() {
-		return "Actor [id=" + id + ", name=" + name + ", age=" + age + ", industry=" + industry + ", salary=" + salary
-				+ ", nationality=" + nationality + ", movies=" + movies + "]";
-	}
-    
-    
+    @Override
+    public String toString() {
+        return "Actor [id=" + id + ", name=" + name + ", age=" + age + ", industry=" + industry + ", salary=" + salary
+                + ", nationality=" + nationality + ", movies=" + movies + "]";
+    }
 }
